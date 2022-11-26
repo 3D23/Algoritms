@@ -1,0 +1,16 @@
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        max = 0
+        count = 0
+        for i in range (1, len(prices)):
+            if prices[i] > prices[i - 1]:
+                count += 1
+            else:
+                if count > 0:
+                    max += prices[i-1] - prices[i - count - 1]
+                    count = 0
+            if i == len(prices) - 1:
+                max += prices[i] - prices[i - count]
+        return max
+# Чтобы решить данную задачу можно найти последовательности только из возрастающих элементов и вычитать последний элемент последовательности и первый. Овтетом будет сумма этих разностей
+# Сложность алгоритма - O(n)
