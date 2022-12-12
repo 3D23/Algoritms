@@ -1,1 +1,19 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        answer = []
+        ptr = head
+        answer.append(ptr.val)
+        while ptr.next != None:
+            answer.append(ptr.next.val)
+            ptr = ptr.next
+        if answer == answer[::-1]:
+            return True
+        return False
+        
 
+#  Сложность O(n). Создаём список, который будет хранить все значения односвязного списка и если этот список будет эквивалентен самому себе только перевёрнотому, то односвязный список - палиндром в противном случае - нет.
