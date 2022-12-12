@@ -1,0 +1,46 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def averageOfLevels(self, root: Optional[TreeNode]) -> List[float]:
+        stack = [(root, 0)]
+        help_s = [] # Список, который хранит на каких глубинах находятся листики дерева (потребуется для нахождения максимальной глубины дерева)
+        ptr = root
+        
+        while stack: # Этот цикл нужен для нахождения максимальной глубины
+            cur_point, length = stack.pop()
+            
+            if cur_point.left == None and cur_point.right == None:
+                help_s.append(length + 1)
+            
+            if cur_point.left != None:
+                stack.append((cur_point.left, length + 1))
+            
+            if cur_point.right != None:
+                stack.append((cur_point.right, length + 1))
+        
+        answer = [0] * max(help_s) # Список сумм значений вершин на каждом из уровней
+        stack = [(root, 0)]
+        count = [0] * max(help_s) # Количество вершин на каждом из уровней
+        ptr = root
+        
+        while stack:
+            cur_point, length = stack.pop()
+             
+            answer[length] += cur_point.val # Сумма значений вершин на глубине length увеличивается на значение текущей вершины
+            count[length] += 1 # Количество вершин на глубине length увеличивается на 1
+            
+            if cur_point.left != None:
+                stack.append((cur_point.left, length + 1))
+            
+            if cur_point.right != None:
+                stack.append((cur_point.right, length + 1))
+        
+        for i in range(len(answer)): 
+            answer[i] = answer[i] / count[i] # Каждый элемент списка answer заполняем следующим образом: сумма значений вершин на i + 1 уровне / количество вершин на i + 1 уровне.
+        return answer
+
+# Сложность O(n)
